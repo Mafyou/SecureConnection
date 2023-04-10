@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>SecureConnection.Maui</ApplicationTitle>
+		<ApplicationTitle>Crypto PoC</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.mafyou.secureconnection.maui</ApplicationId>
