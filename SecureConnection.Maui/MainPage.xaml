@@ -34,7 +34,13 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
-
+            <Button
+                Text="Auth User"
+                Clicked="ButtonAuthentification_Clicked"
+                HorizontalOptions="Center" />
+            <Label
+                x:Name="lResult"
+                Text="Ready" />
         </VerticalStackLayout>
     </ScrollView>
 

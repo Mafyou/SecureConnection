@@ -1,3 +1,5 @@
+using SecureConnection.DTO;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -32,6 +34,11 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+app.MapPost("/userAuthentification", (UserDTO user) =>
+{
+    return (user.Name == "Mafyou") && (user.Password == "test");
+});
 
 app.Run();
 
