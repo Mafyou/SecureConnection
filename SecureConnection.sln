@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33513.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureConnection", "SecureConnection\SecureConnection.csproj", "{4568176C-3707-4F0B-A91C-7C817B847FAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4568176C-3707-4F0B-A91C-7C817B847FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4568176C-3707-4F0B-A91C-7C817B847FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4568176C-3707-4F0B-A91C-7C817B847FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4568176C-3707-4F0B-A91C-7C817B847FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53E4646B-F8B3-4D40-A278-9707E9D7F363}
+	EndGlobalSection
+EndGlobal
