@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="EncryptDecryptLib\EncryptDecryptLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CertificateManager" Version="1.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
