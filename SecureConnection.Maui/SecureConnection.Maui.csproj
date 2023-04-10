@@ -15,7 +15,7 @@
 		<ApplicationTitle>SecureConnection.Maui</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.secureconnection.maui</ApplicationId>
+		<ApplicationId>com.mafyou.secureconnection.maui</ApplicationId>
 		<ApplicationIdGuid>4aba92df-c063-490e-8cff-908d57353f02</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -49,6 +49,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 

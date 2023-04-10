@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SecureConnection.Maui.ViewModels"
+             x:DataType="vm:MainVM"
              x:Class="SecureConnection.Maui.MainPage">
 
     <ScrollView>
@@ -36,11 +38,11 @@
                 HorizontalOptions="Center" />
             <Button
                 Text="Auth User"
-                Clicked="ButtonAuthentification_Clicked"
+                Command="{Binding onUpdateStatusCommand}"
                 HorizontalOptions="Center" />
             <Label
                 x:Name="lResult"
-                Text="Ready" />
+                Text="{Binding Status}" />
         </VerticalStackLayout>
     </ScrollView>
 

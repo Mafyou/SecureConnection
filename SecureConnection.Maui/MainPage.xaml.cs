@@ -1,15 +1,15 @@
 ﻿using SecureConnection.Maui.Services;
+using SecureConnection.Maui.ViewModels;
 
 namespace SecureConnection.Maui
 {
     public partial class MainPage : ContentPage
     {
         int count = 0;
-        private readonly APIService _apiService;
-        public MainPage(APIService apiService)
+        public MainPage(APIService api)
         {
             InitializeComponent();
-            _apiService = apiService;
+            BindingContext = new MainVM(api);
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
@@ -22,11 +22,6 @@ namespace SecureConnection.Maui
                 CounterBtn.Text = $"Clicked {count} times";
 
             SemanticScreenReader.Announce(CounterBtn.Text);
-        }
-
-        private async void ButtonAuthentification_Clicked(object sender, EventArgs e)
-        {
-            lResult.Text = await _apiService.SecureUserAuthentification(new DTO.UserDTO { Name = "Mafyou", Password = "test" });
         }
     }
 }
