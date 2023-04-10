@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using EncryptDecryptLib;
 using Microsoft.Extensions.Logging;
 using SecureConnection.Maui.Services;
 
@@ -17,6 +18,11 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        builder.Services.AddCertificateManager();
+        builder.Services.AddTransient<SymmetricEncryptDecrypt>();
+        builder.Services.AddTransient<AsymmetricEncryptDecrypt>();
+        builder.Services.AddTransient<DigitalSignatures>();
+
         builder.Services.AddSingleton<APIService>();
         builder.Services.AddTransient<MainPage>();
 

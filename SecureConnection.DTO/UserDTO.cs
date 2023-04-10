@@ -1,6 +1,6 @@
 ﻿namespace SecureConnection.DTO;
 
-public class UserDTO
+public sealed record UserDTO : RootDTO
 {
     public string Name { get; set; }
     public string Password { get; set; }

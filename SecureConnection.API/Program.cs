@@ -1,4 +1,4 @@
-using SecureConnection.DTO;
+using EncryptDecryptLib;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +6,24 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCertificateManager()
+                .BuildServiceProvider();
+
+builder.Services.AddControllers().AddApplicationPart(typeof(SecureConnection.Controllers.UserController).Assembly);
+
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-XSRF-TOKEN";
+    options.Cookie.Name = "__Host-X-XSRF-TOKEN";
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
+builder.Services.AddCertificateManager();
+builder.Services.AddTransient<SymmetricEncryptDecrypt>();
+builder.Services.AddTransient<AsymmetricEncryptDecrypt>();
+builder.Services.AddTransient<DigitalSignatures>();
 
 var app = builder.Build();
 
@@ -34,11 +52,6 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
-
-app.MapPost("/userAuthentification", (UserDTO user) =>
-{
-    return (user.Name == "Mafyou") && (user.Password == "test");
-});
 
 app.Run();
 

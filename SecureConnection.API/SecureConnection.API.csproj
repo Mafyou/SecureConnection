@@ -4,15 +4,20 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>24deba3e-39a2-411a-ac61-7460ca94a291</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CertificateManager" Version="1.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SecureConnection.Controllers\SecureConnection.Controllers.csproj" />
     <ProjectReference Include="..\SecureConnection.DTO\SecureConnection.DTO.csproj" />
+    <ProjectReference Include="..\SharedEncryptDecryptLib\SharedEncryptDecryptLib.csproj" />
   </ItemGroup>
 
 </Project>
