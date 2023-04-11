@@ -1,4 +1,5 @@
-﻿using SecureConnection.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
+using SecureConnection.DTO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Mime;
@@ -27,29 +28,41 @@ public class APIService
     public async Task<string> EncryptedSecureUserAuthentification(UserDTO user)
     {
         var encryptUser = cryptUserDTO(user);
-
-        using var content = new MultipartFormDataContent();
-        var byteContent = new ByteArrayContent(encryptUser);
-        byteContent.Headers.ContentType = MediaTypeHeaderValue.Parse(MediaTypeNames.Text.Plain);
-        content.Add(byteContent, "file", $"{Guid.NewGuid()}.txt");
-        content.Headers.Add("Id", 1.ToString());
-
-        var request = await _client.PostAsync("/encryptedUser", content);
+        var request = await _client.PostAsJsonAsync("/user/AuthentificationCrypted", encryptUser);
         var response = request.EnsureSuccessStatusCode();
-        var sd = await response.Content.ReadAsStringAsync();
         if (request.IsSuccessStatusCode)
             return await request.Content.ReadAsStringAsync();
+        var pb = await request.Content.ReadFromJsonAsync<ProblemDetails>();
         return string.Empty;
     }
 
-    private byte[] cryptUserDTO(UserDTO user)
+    private UserDTO cryptUserDTO(UserDTO user)
     {
         using var aesCryptor = Aes.Create();
+        aesCryptor.Mode = CipherMode.CBC;
+        aesCryptor.Padding = PaddingMode.PKCS7;
         var encryptor = aesCryptor.CreateEncryptor(aesCryptor.Key, aesCryptor.IV);
-        using var ms = new MemoryStream();
-        using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
-        using var sw = new StreamWriter(cs);
-        sw.Write(user);
-        return ms.ToArray();
+
+        var cryptedName = string.Empty;
+        using (var msEncrypt = new MemoryStream())
+        {
+            using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+            using (var swEncrypt = new StreamWriter(csEncrypt))
+                swEncrypt.Write(user.Name);
+            cryptedName = Encoding.UTF8.GetString(msEncrypt.ToArray());
+        }
+        var cryptedPassword = string.Empty;
+        using (var msEncrypt = new MemoryStream())
+        {
+            using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+            using (var swEncrypt = new StreamWriter(csEncrypt))
+                swEncrypt.Write(user.Password);
+            cryptedPassword = Encoding.UTF8.GetString(msEncrypt.ToArray());
+        }
+        return new UserDTO
+        {
+            Name = cryptedName,
+            Password = cryptedPassword
+        };
     }
 }

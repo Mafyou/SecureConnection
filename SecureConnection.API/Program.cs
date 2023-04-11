@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SecureConnection.DTO;
 using System.Security.Cryptography;
@@ -17,6 +18,7 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
+builder.Services.AddControllers().AddApplicationPart(typeof(SecureConnection.Controllers.UserController).Assembly);
 
 var app = builder.Build();
 
@@ -45,23 +47,6 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
-
-app.MapPost("/encryptedUser", (IFormFile file) =>
-{
-    using var aesCryptor = Aes.Create();
-    var decryptor = aesCryptor.CreateDecryptor(aesCryptor.Key, aesCryptor.IV);
-
-    using var memoryStream = new MemoryStream();
-    file.CopyTo(memoryStream);
-    var bytesArray = memoryStream.ToArray();
-
-    using var ms = new MemoryStream(bytesArray);
-    using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
-    using var sw = new StreamReader(cs);
-    var decryptedUser = sw.ReadToEnd();
-    var user = JsonConvert.DeserializeObject<UserDTO>(decryptedUser);
-    return (user.Name == "Mafyou") && (user.Password == "test");
-});
 
 app.Run();
 
