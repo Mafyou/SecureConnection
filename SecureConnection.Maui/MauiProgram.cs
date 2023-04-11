@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
-using SecureConnection.Maui.Services;
-
-namespace SecureConnection.Maui;
+﻿namespace SecureConnection.Maui;
 
 public static class MauiProgram
 {

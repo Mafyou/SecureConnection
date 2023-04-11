@@ -1,0 +1,9 @@
+﻿global using CommunityToolkit.Maui;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Logging;
+global using SecureConnection.DTO;
+global using SecureConnection.Maui.Helpers;
+global using SecureConnection.Maui.Services;
+global using System.Net.Http.Json;
+global using System.Security.Cryptography;
+global using System.Text;
