@@ -29,35 +29,56 @@ public class APIService
     {
         var encryptUser = cryptUserDTO(user);
         var request = await _client.PostAsJsonAsync("/user/AuthentificationCrypted", encryptUser);
-        var response = request.EnsureSuccessStatusCode();
         if (request.IsSuccessStatusCode)
-            return await request.Content.ReadAsStringAsync();
+        {
+            var lol = await request.Content.ReadFromJsonAsync<UserDTO>();
+            return "toto";
+        }
         var pb = await request.Content.ReadFromJsonAsync<ProblemDetails>();
         return string.Empty;
     }
 
     private UserDTO cryptUserDTO(UserDTO user)
     {
-        using var aesCryptor = Aes.Create();
-        aesCryptor.Mode = CipherMode.CBC;
-        aesCryptor.Padding = PaddingMode.PKCS7;
-        var encryptor = aesCryptor.CreateEncryptor(aesCryptor.Key, aesCryptor.IV);
-
+        var key = Encoding.UTF8.GetBytes("E546C8DF278CD5931069B522E695D4F2");
         var cryptedName = string.Empty;
+
+        using (var aesCryptor = Aes.Create())
+        using (var encryptor = aesCryptor.CreateEncryptor(key, aesCryptor.IV))
         using (var msEncrypt = new MemoryStream())
         {
             using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
             using (var swEncrypt = new StreamWriter(csEncrypt))
                 swEncrypt.Write(user.Name);
-            cryptedName = Encoding.UTF8.GetString(msEncrypt.ToArray());
+            var iv = aesCryptor.IV;
+
+            var decryptedContent = msEncrypt.ToArray();
+
+            var result = new byte[iv.Length + decryptedContent.Length];
+
+            Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
+            Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
+
+            cryptedName = Convert.ToBase64String(result);
         }
         var cryptedPassword = string.Empty;
+        using (var aesCryptor = Aes.Create())
+        using (var encryptor = aesCryptor.CreateEncryptor(key, aesCryptor.IV))
         using (var msEncrypt = new MemoryStream())
         {
             using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
             using (var swEncrypt = new StreamWriter(csEncrypt))
                 swEncrypt.Write(user.Password);
-            cryptedPassword = Encoding.UTF8.GetString(msEncrypt.ToArray());
+            var iv = aesCryptor.IV;
+
+            var decryptedContent = msEncrypt.ToArray();
+
+            var result = new byte[iv.Length + decryptedContent.Length];
+
+            Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
+            Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
+
+            cryptedPassword = Convert.ToBase64String(result);
         }
         return new UserDTO
         {

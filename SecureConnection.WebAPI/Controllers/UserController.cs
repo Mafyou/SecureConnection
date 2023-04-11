@@ -17,31 +17,41 @@ namespace SecureConnection.WebAPI.Controllers
             try
             {
                 var user = decryptUserDTO(userDTO);
-                return Ok((user.Name == "Mafyou") && (user.Password == "test"));
+                return Ok(user);
+                // return Ok((user.Name == "Mafyou") && (user.Password == "test"));
             }
             catch (Exception ex)
             {
-                return BadRequest(new ProblemDetails { Title = ex.Message, Detail = ex.StackTrace });
+                return NotFound(new ProblemDetails { Title = ex.Message, Detail = ex.StackTrace });
             }
         }
 
         private UserDTO decryptUserDTO(UserDTO userEncrypted)
         {
-            using var aesCryptor = Aes.Create();
-            aesCryptor.Mode = CipherMode.CBC;
-            aesCryptor.Padding = PaddingMode.PKCS7;
-            var decryptor = aesCryptor.CreateDecryptor(aesCryptor.Key, aesCryptor.IV);
+            var key = Encoding.UTF8.GetBytes("E546C8DF278CD5931069B522E695D4F2");
 
-            var cryptedName = Encoding.ASCII.GetBytes(userEncrypted.Name);
+            var nameCipher = Convert.FromBase64String(userEncrypted.Name);
+            var ivName = new byte[16];
+            var cipherName = new byte[16];
+            Buffer.BlockCopy(nameCipher, 0, ivName, 0, ivName.Length);
+            Buffer.BlockCopy(nameCipher, ivName.Length, cipherName, 0, ivName.Length);
             var name = string.Empty;
-            using (MemoryStream msDecrypt = new MemoryStream(cryptedName))
+            using (var aesCryptor = Aes.Create())
+            using (var decryptor = aesCryptor.CreateDecryptor(key, ivName))
+            using (var msDecrypt = new MemoryStream(cipherName))
             using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
             using (var srDecrypt = new StreamReader(csDecrypt))
                 name = srDecrypt.ReadToEnd();
 
-            var cryptedPassword = Encoding.ASCII.GetBytes(userEncrypted.Password);
             var password = string.Empty;
-            using (MemoryStream msDecrypt = new MemoryStream(cryptedPassword))
+            var passwordCipher = Convert.FromBase64String(userEncrypted.Password);
+            var ivPassword = new byte[16];
+            var cipherPassword = new byte[16];
+            Buffer.BlockCopy(passwordCipher, 0, ivPassword, 0, ivPassword.Length);
+            Buffer.BlockCopy(passwordCipher, ivPassword.Length, cipherPassword, 0, ivPassword.Length);
+            using (var aesCryptor = Aes.Create())
+            using (var decryptor = aesCryptor.CreateDecryptor(key, ivPassword))
+            using (var msDecrypt = new MemoryStream(cipherPassword))
             using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
             using (var srDecrypt = new StreamReader(csDecrypt))
                 password = srDecrypt.ReadToEnd();
