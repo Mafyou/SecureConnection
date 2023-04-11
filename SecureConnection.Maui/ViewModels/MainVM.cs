@@ -12,21 +12,14 @@ public partial class MainVM : ObservableObject
     [RelayCommand]
     private async Task onUpdateStatus()
     {
-        //if (MainThread.IsMainThread)
-        //    myMainThreadCode();
-
-        //else
-        //    MainThread.BeginInvokeOnMainThread(myMainThreadCode);
-        myMainThreadCode();
+        if (MainThread.IsMainThread)
+            myMainThreadCode();
+        else
+            MainThread.BeginInvokeOnMainThread(myMainThreadCode);
     }
     private async void myMainThreadCode()
     {
-        var sync = await MainThread.GetMainThreadSynchronizationContextAsync();
-        var popo = "lol";
-        sync.Send(async (e) =>
-        {
-            Status = await _api.EncryptedSecureUserAuthentification(new DTO.UserDTO { Name = "Mafyou", Password = "test" });
-        }, popo);
+        await _api.EncryptedSecureUserAuthentification(new DTO.UserDTO { Name = "Mafyou", Password = "test" });
     }
     public MainVM(APIService api)
     {

@@ -1,4 +1,7 @@
-using EncryptDecryptLib;
+using Newtonsoft.Json;
+using SecureConnection.DTO;
+using System.Security.Cryptography;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,11 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddCertificateManager()
-                .BuildServiceProvider();
-
-builder.Services.AddControllers().AddApplicationPart(typeof(SecureConnection.Controllers.UserController).Assembly);
-
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-XSRF-TOKEN";
@@ -19,11 +17,6 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
-
-builder.Services.AddCertificateManager();
-builder.Services.AddTransient<SymmetricEncryptDecrypt>();
-builder.Services.AddTransient<AsymmetricEncryptDecrypt>();
-builder.Services.AddTransient<DigitalSignatures>();
 
 var app = builder.Build();
 
@@ -52,6 +45,23 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+app.MapPost("/encryptedUser", (IFormFile file) =>
+{
+    using var aesCryptor = Aes.Create();
+    var decryptor = aesCryptor.CreateDecryptor(aesCryptor.Key, aesCryptor.IV);
+
+    using var memoryStream = new MemoryStream();
+    file.CopyTo(memoryStream);
+    var bytesArray = memoryStream.ToArray();
+
+    using var ms = new MemoryStream(bytesArray);
+    using var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
+    using var sw = new StreamReader(cs);
+    var decryptedUser = sw.ReadToEnd();
+    var user = JsonConvert.DeserializeObject<UserDTO>(decryptedUser);
+    return (user.Name == "Mafyou") && (user.Password == "test");
+});
 
 app.Run();
 

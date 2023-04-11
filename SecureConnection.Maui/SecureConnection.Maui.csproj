@@ -77,9 +77,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SecureConnection.Constants\SecureConnection.Constants.csproj" />
 	  <ProjectReference Include="..\SecureConnection.DTO\SecureConnection.DTO.csproj" />
-	  <ProjectReference Include="..\SharedEncryptDecryptLib\SharedEncryptDecryptLib.csproj" />
 	</ItemGroup>
 
 </Project>
