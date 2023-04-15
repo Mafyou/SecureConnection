@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureConnection.Maui", "Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureConnection.DTO", "SecureConnection.DTO\SecureConnection.DTO.csproj", "{1CC646BA-0EA4-4F6A-80ED-23EAAB76E947}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureConnection.WebAPI", "SecureConnection.WebAPI\SecureConnection.WebAPI.csproj", "{1B02B1FD-FBA6-48A3-B79C-FBB90F953F11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureConnection.WebAPI", "SecureConnection.WebAPI\SecureConnection.WebAPI.csproj", "{1B02B1FD-FBA6-48A3-B79C-FBB90F953F11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureConnection.StructuredConcurrency", "SecureConnection.StructuredConcurrency\SecureConnection.StructuredConcurrency.csproj", "{9883B7ED-9505-4060-AF0F-D1E6D7365B9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{1B02B1FD-FBA6-48A3-B79C-FBB90F953F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B02B1FD-FBA6-48A3-B79C-FBB90F953F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B02B1FD-FBA6-48A3-B79C-FBB90F953F11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9883B7ED-9505-4060-AF0F-D1E6D7365B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9883B7ED-9505-4060-AF0F-D1E6D7365B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9883B7ED-9505-4060-AF0F-D1E6D7365B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9883B7ED-9505-4060-AF0F-D1E6D7365B9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
