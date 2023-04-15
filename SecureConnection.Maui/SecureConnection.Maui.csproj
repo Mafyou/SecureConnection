@@ -61,6 +61,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\SecureConnection.DTO\SecureConnection.DTO.csproj" />
+	  <ProjectReference Include="..\SecureConnection.StructuredConcurrency\SecureConnection.StructuredConcurrency.csproj" />
 	</ItemGroup>
 
 </Project>

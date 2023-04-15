@@ -28,6 +28,17 @@ public class APIService
         var pb = await request.Content.ReadFromJsonAsync<ProblemDetails>();
         return string.Empty;
     }
+    public async Task<UserDTO> EncryptedSecureUserUnCryptedRaced(UserDTO user)
+    {
+        var encryptUser = cryptUserDTO(user);
+        var request = await _client.PostAsJsonAsync("/user/UserUnCrypted", encryptUser);
+        if (request.IsSuccessStatusCode)
+        {
+            return await request.Content.ReadFromJsonAsync<UserDTO>();
+        }
+        var pb = await request.Content.ReadFromJsonAsync<ProblemDetails>();
+        throw new Exception($"{pb.Title} {pb.Detail}");
+    }
 
     private UserDTO cryptUserDTO(UserDTO user)
     {

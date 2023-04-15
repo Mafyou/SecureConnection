@@ -18,6 +18,19 @@ namespace SecureConnection.WebAPI.Controllers
                 return NotFound(new ProblemDetails { Title = ex.Message, Detail = ex.StackTrace });
             }
         }
+        [HttpPost("UserUnCrypted")]
+        [AllowAnonymous]
+        public IActionResult UserUnCrypted(UserDTO userDTO)
+        {
+            try
+            {
+                return Ok(decryptUserDTO(userDTO));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ProblemDetails { Title = ex.Message, Detail = ex.StackTrace });
+            }
+        }
 
         private UserDTO decryptUserDTO(UserDTO userEncrypted)
         {

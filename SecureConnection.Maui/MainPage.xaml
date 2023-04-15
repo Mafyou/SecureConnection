@@ -37,7 +37,7 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
             <Button
-                Text="Auth User"
+                Text="Race User"
                 Command="{Binding onUpdateStatusCommand}"
                 HorizontalOptions="Center" />
             <Label

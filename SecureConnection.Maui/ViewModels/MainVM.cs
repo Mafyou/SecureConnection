@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using SecureConnection.Maui.Services;
-
-namespace SecureConnection.Maui.ViewModels;
+﻿namespace SecureConnection.Maui.ViewModels;
 
 public partial class MainVM : ObservableObject
 {
@@ -12,7 +8,16 @@ public partial class MainVM : ObservableObject
     [RelayCommand]
     private async Task onUpdateStatus()
     {
-        Status = await _api.EncryptedSecureUserAuthentification(new DTO.UserDTO { Name = "Mafyou", Password = "test" });
+        var result = await TaskGoup.RunScopeAsync(default, async group =>
+        {
+            return await TaskGoup.RaceScopeAsync<UserDTO>(group.CancellationToken, async group =>
+            {
+                group.Race(async token => await _api.EncryptedSecureUserUnCryptedRaced(new UserDTO { Name = "Mafyou1", Password = "test1" }));
+                group.Race(async token => await _api.EncryptedSecureUserUnCryptedRaced(new UserDTO { Name = "Mafyou2", Password = "test2" }));
+                group.Race(async token => await _api.EncryptedSecureUserUnCryptedRaced(new UserDTO { Name = "Mafyou3", Password = "test3" }));
+            });
+        });
+        Status = $"{result.Name} {result.Password}";
     }
     public MainVM(APIService api)
     {
